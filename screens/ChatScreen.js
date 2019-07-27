@@ -15,7 +15,7 @@ import { Header } from 'react-navigation-stack';
 import { FontAwesome } from '@expo/vector-icons';
 import { CometChat } from '@cometchat-pro/react-native-chat';
 
-import { groupGUID } from '../config';
+import config from "../config";
 
 export default class ChatScreen extends React.Component {
 
@@ -32,7 +32,7 @@ export default class ChatScreen extends React.Component {
 
   componentDidMount() {
     let messagesRequest = new CometChat.MessagesRequestBuilder()
-      .setGUID(groupGUID)
+      .setGUID(config.groupGUID)
       .setLimit(100)
       .build();
 
@@ -72,7 +72,7 @@ export default class ChatScreen extends React.Component {
     const { message } = this.state;
 
     let textMessage = new CometChat.TextMessage(
-      groupGUID,
+      config.groupGUID,
       message,
       CometChat.MESSAGE_TYPE.TEXT,
       CometChat.RECEIVER_TYPE.GROUP

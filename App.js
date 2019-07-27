@@ -6,10 +6,6 @@ import {decode, encode} from 'base-64'
 import AppNavigator from './navigation/AppNavigator';
 import config from './config';
 import FlashMessage from "react-native-flash-message";
-import {
-  View,
-} from 'react-native';
-
 
 export default function App() {
   if (!global.btoa) {
