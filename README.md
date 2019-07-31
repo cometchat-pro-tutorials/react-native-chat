@@ -18,8 +18,8 @@ This demo uses:
 
 ## Running the demo locally
 
-* Download the repository or use `git clone https://github.com/cometchat-pro-tutorials/react-native-chat.git` into your local computer
-* run `npm install`
+* Download the repository [here](https://github.com/cometchat-pro-tutorials/react-native-chat/archive/master.zip) or run `git clone https://github.com/cometchat-pro-tutorials/react-native-chat.git`
+* In the `react-native-chat` directory, run `npm install`
 * You need to sign up for CometChat PRO and create your application first
 * Create an ApiKey. You can use auth-only permission for this application
 * Create a Group from the dashboard
