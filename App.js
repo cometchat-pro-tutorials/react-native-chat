@@ -2,9 +2,9 @@
 import React from 'react';
 import { CometChat } from '@cometchat-pro/react-native-chat';
 import {decode, encode} from 'base-64'
+import { REACT_NATIVE_CC_APP_ID } from 'react-native-dotenv'
 
 import AppNavigator from './navigation/AppNavigator';
-import config from './config';
 import FlashMessage from "react-native-flash-message";
 
 export default function App() {
@@ -15,7 +15,7 @@ export default function App() {
   if (!global.atob) {
     global.atob = decode;
   }
-  CometChat.init(config.appID)
+  CometChat.init(REACT_NATIVE_CC_APP_ID)
     return (
       <React.Fragment>
         <AppNavigator />

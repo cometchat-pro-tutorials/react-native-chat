@@ -23,7 +23,15 @@ This demo uses:
 * You need to sign up for CometChat PRO and create your application first
 * Create an ApiKey. You can use auth-only permission for this application
 * Create a Group from the dashboard
-* Put your AppID, ApiKey, and Group GUID into `config.js` file
+* Create a `.env` file in the root folder of the project and paste the following content in it:
+
+```
+REACT_NATIVE_CC_APP_ID= YOUR_APP_ID
+REACT_NATIVE_CC_API_KEY= YOUR_API_KEY
+REACT_NATIVE_CC_GUID= YOUR_GROUP_GUID
+```
+
+Replace `YOUR_API_KEY`, `YOUR_APP_ID` and `YOUR_GROUP_GUID` with your API KEY, APP ID and GUID as obtained from your CometChat dashboard.
 * run `expo start`
 * Install Expo app on your [Android](https://play.google.com/store/apps/details?id=host.exp.exponent)/ [iOS](https://apps.apple.com/app/apple-store/id982107779) device and scan the barcode
 

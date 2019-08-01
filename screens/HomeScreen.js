@@ -12,7 +12,7 @@ import { CometChat } from '@cometchat-pro/react-native-chat';
 
 import { showMessage } from "react-native-flash-message";
 import { TextField } from 'react-native-material-textfield';
-import config from "../config";
+import { REACT_NATIVE_CC_API_KEY } from 'react-native-dotenv'
 
 export default class HomeScreen extends React.Component {
 
@@ -33,7 +33,7 @@ export default class HomeScreen extends React.Component {
       isLoading: true
     })
     let { username } = this.state;
-    CometChat.login(username, config.apiKey).then(
+    CometChat.login(username, REACT_NATIVE_CC_API_KEY).then(
       User => {
         showMessage({
           message: "Login Successful",
