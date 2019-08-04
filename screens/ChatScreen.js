@@ -9,10 +9,12 @@ import {
   FlatList,
   Image,
   ActivityIndicator,
+  Platform,
 } from 'react-native';
 
 import { Header } from 'react-navigation-stack';
 import { FontAwesome } from '@expo/vector-icons';
+import Responsive from 'react-native-lightweight-responsive';
 import { CometChat } from '@cometchat-pro/react-native-chat';
 import { REACT_NATIVE_CC_GUID } from 'react-native-dotenv'
 
@@ -38,7 +40,7 @@ export default class ChatScreen extends React.Component {
     messagesRequest.fetchPrevious().then(
       messages => {
         this.setState({
-          chat: messages,
+          chat: messages.reverse(),
           isLoading: false,
         })
       },
@@ -53,7 +55,7 @@ export default class ChatScreen extends React.Component {
         onTextMessageReceived: message => {
           let { chat, refresh } = this.state;
           console.log('Incoming Message Log', {message});
-          chat.push(message);
+          chat.unshift(message)
           this.setState({
             chat,
             refresh: !refresh
@@ -130,7 +132,7 @@ export default class ChatScreen extends React.Component {
           <Text
             style={[
               styles.message,
-              {color: isUser ? '#FFF' : '#000'},
+              {color: isUser ? '#FFF' : '#2D313F'},
             ]}>
             {item.text}
           </Text>
@@ -164,6 +166,7 @@ export default class ChatScreen extends React.Component {
           extraData={refresh}
           renderItem={this.renderChatItem} 
           keyExtractor={this.keyExtractor}
+          inverted
         />
       )
     }
@@ -201,6 +204,8 @@ export default class ChatScreen extends React.Component {
   }
 }
 
+const textFont = Platform.OS  === 'ios'? 'San Francisco': 'Roboto';
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -213,37 +218,39 @@ const styles = StyleSheet.create({
   },
   avatar: {
     borderRadius: 20,
-    width: 40,
-    height: 40,
+    width: Responsive.width(40),
+    height: Responsive.height(40),
   },
   welcomeImage: {
-    width: 180,
-    height: 160,
+    width: Responsive.width(180),
+    height: Responsive.height(160),
     resizeMode: 'contain',
-    marginTop: 5,
+    marginTop: Responsive.height(10),
   },
   connectText: {
     fontSize: 28,
     color: '#1B47DB',
     lineHeight: 32,
     fontWeight: 'bold',
+    fontFamily: textFont,
   },
   helpText: {
-    marginTop: 20,
-    marginBottom: 20,
+    marginVertical: Responsive.height(20),
     color: '#333',
     fontSize: 14,
-    lineHeight: 19,
+    lineHeight: 20,
     textAlign: 'center',
+    fontFamily: textFont,
   },
   chatBubble: {
     flex: 1,
-    maxWidth: 250,
+    maxWidth: Responsive.width(250),
     padding: 8,
     borderRadius: 8,
   },
   message: {
     fontSize: 14,
+    fontFamily: textFont,
   },
   sender: {
     fontSize: 12,
@@ -259,9 +266,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   input: {
-    paddingHorizontal: 20,
-    fontSize: 14,
     flex: 1,
+    fontSize: 14,
+    fontFamily: textFont,
+    paddingHorizontal: Responsive.width(20),
   },
   send: {
     alignSelf: 'center',

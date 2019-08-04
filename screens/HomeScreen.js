@@ -1,25 +1,15 @@
 import React from 'react';
-import * as WebBrowser from 'expo-web-browser';
 import {
   Image,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
-import { CometChat } from '@cometchat-pro/react-native-chat';
-
-import { showMessage } from "react-native-flash-message";
-import { TextField } from 'react-native-material-textfield';
-import { REACT_NATIVE_CC_API_KEY } from 'react-native-dotenv'
+import Responsive from 'react-native-lightweight-responsive';
 
 export default class HomeScreen extends React.Component {
-
-  state = {
-    username: '',
-    isLoading: false,
-  };
 
   handleHelpPress() {
     WebBrowser.openBrowserAsync(
@@ -27,80 +17,32 @@ export default class HomeScreen extends React.Component {
     );
   }
 
-  handleLogin = event => {
-    event.preventDefault();
-    this.setState({
-      isLoading: true
-    })
-    let { username } = this.state;
-    CometChat.login(username, REACT_NATIVE_CC_API_KEY).then(
-      User => {
-        showMessage({
-          message: "Login Successful",
-          type: "success",
-        });
-        this.setState({ username: '', isLoading: false });
-        this.props.navigation.navigate('Chat', User);
-      },
-      error => {
-        showMessage({
-          message: "Login failed. Please try again",
-          type: "danger",
-        });
-        this.setState({
-          isLoading: false
-        })
-      }
-    );
-  };
-
-  resetLogin() {
-    this.setState({
-      isLoading: false
-    })
-  }
-
   render(){
-    let { username, isLoading } = this.state;
-
     return (
-      <KeyboardAvoidingView style={{flex: 1}} behavior="padding">
         <View style={styles.container}>
-  
-          <View style={styles.getStartedContainer}>  
-            <Text style={styles.blueHeaderText}>
-              Connect with people around the world
-            </Text>
-  
-            <View style={styles.welcomeContainer}>
-              <Image
-                source={require('../assets/images/illustration-home.png')}
-                style={styles.welcomeImage}
-              />
-            </View>
-  
-            
-            <Text style={styles.helpText}>
-              Welcome to React Native CometChat App. Login with the username "superhero1" or "superhero2" to test this app. 
-              To create your own user, visit our <Text style={{color: '#2e78b7'}} onPress={this.handleHelpPress}>documentation</Text>
-            </Text>
-  
-            <TextField
-              label='Username'
-              value={username}
-              onChangeText={ (username) => this.setState({ username }) }
-            />
-    
-          </View>
+          <Text style={styles.topText}>
+            Create an account
+          </Text>
+          <Text style={styles.blueHeaderText}>
+            Connect with people around the world
+          </Text>
 
+          <View style={styles.welcomeContainer}>
+            <Image
+              source={require('../assets/images/illustration-home.png')}
+              style={styles.welcomeImage}
+            />
+          </View>
+          <Text style={styles.helpText}>
+            Welcome to React Native CometChat App. Login with the username "superhero1" or "superhero2" to test this app. 
+            To create your own user, visit our <Text style={{color: '#2e78b7'}} onPress={this.handleHelpPress}>documentation</Text>
+          </Text>
           <View style={styles.buttonContainer}>
-            <TouchableOpacity onPress={this.handleLogin} style={[styles.loginButton, {opacity: isLoading? .5: 1 }]} disabled={isLoading}>
-              <Text style={styles.loginText}>{isLoading? "Loading.." : "LOG IN"}</Text>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Login')} style={styles.loginButton}>
+              <Text style={styles.loginText}>LOG IN</Text>
             </TouchableOpacity>
           </View>
-          <View style={{flex: 1}}></View>
         </View>
-        </KeyboardAvoidingView>
     );
   }
 }
@@ -109,63 +51,69 @@ HomeScreen.navigationOptions = {
   header: null,
 };
 
+const textFont = Platform.OS  === 'ios'? 'San Francisco': 'Roboto';
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingTop: 30,
-    justifyContent: "flex-end",
+    paddingTop: Responsive.height(40),
+    marginHorizontal: Responsive.width(30)
   },
-  getStartedContainer: {
-    marginTop: 50,
-    marginHorizontal: 50,
+  topText: {
+    marginVertical: Responsive.height(15),
+    color: '#2D313F',
+    fontSize: 14,
+    fontFamily: textFont,
   },
   blueHeaderText: {
+    marginBottom: Responsive.height(20),
     fontSize: 28,
     color: '#1B47DB',
     lineHeight: 32,
     fontWeight: 'bold',
+    fontFamily: textFont,
   },
   welcomeContainer: {
     alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 20,
+    marginTop: Responsive.height(20),
+    marginBottom: Responsive.height(10),
   },
   welcomeImage: {
-    width: 180,
-    height: 160,
+    width: Responsive.width(230),
+    height: Responsive.height(215),
     resizeMode: 'contain',
-    marginTop: 5,
   },
   helpText: {
-    marginTop: 20,
-    marginBottom: 20,
-    color: '#333',
+    marginTop: Responsive.height(20),
+    marginBottom: Responsive.height(20),
+    color: '#2D313F',
     fontSize: 14,
-    lineHeight: 19,
+    lineHeight: 20,
     textAlign: 'center',
+    fontFamily: textFont,
   },
   buttonContainer: {
-    marginTop: 10,
-    marginBottom: 10,
+    marginVertical: Responsive.height(10),
     alignItems: 'center',
   },
   loginButton: {
-    paddingVertical: 10,
+    paddingVertical: Responsive.height(10),
 	  backgroundColor: '#1B47DB',
     borderRadius: 5,
-    width: '80%',
+    width: '100%',
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: Responsive.height(2),
     },
-    shadowOpacity: 0.23,
-    shadowRadius: 2.62,
+    shadowOpacity: 0.5,
+    shadowRadius: 2.5,
     elevation: 4,
   },
   loginText: {
     textAlign: 'center',
     color: '#fff',
     fontWeight: 'bold',
+    fontFamily: textFont,
   },
 });
